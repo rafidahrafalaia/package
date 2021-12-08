@@ -95,17 +95,17 @@ exports.patchPackage = async (req, res) => {
   }
   const id = req.params.id;
   try{
-    packageMongo.updateOne({transaction_id  : id}, {$set: req.body})
+    packageMongo.updateOne({transaction_id : id}, {$set: req.body})
       .then(data => {
-        if (!datan.Modified) {
+        if (!data.nModified) {
           res.status(404).send({
             message: `Cannot patch Package with id=${id}. Maybe Package was not found!`
           });
-        } else res.send({ message: "Package was patched successfully." });
+        } else res.status(200).send({ message: "Package was patch successfully." });
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error patching Package with id=" + id
+          message: "Error patch Package with id=" + id
         });
       });
   }catch (err) {

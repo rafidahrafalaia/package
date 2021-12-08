@@ -5,8 +5,8 @@ const mongoose = require("./mongoose");
 
 module.exports = async (app) => {
   // LOAD ROUTES
-  // await expressLoader(app);
   logger.info("✌️ Express loaded");
+  await expressLoader(app);
 
   // LOAD MONGOOSE
   await mongoose();
