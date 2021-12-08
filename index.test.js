@@ -215,7 +215,7 @@ test("PUT package", async () => {
 
 test("PATCH package", async () => {
 
-  await supertest(app).patch("/package/"+testPackage.transaction_id).send(testPackage)
+  await supertest(app).patch("/package/"+test_id).send(testPackage)
   .expect(200);
     
 });
