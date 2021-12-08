@@ -467,9 +467,8 @@ exports.getOnePackage = async (req, res) => {
 <p align="center">
   <img src="https://github.com/rafidahrafalaia/package/blob/main/result/getAll.JPG" width="650" alt="accessibility text">
 </p>
-</p>
+
 ## Testing Result
-</p>
 <p align="center">
   <img src="https://github.com/rafidahrafalaia/package/blob/main/result/test.JPG" width="450" alt="accessibility text">
 </p>
