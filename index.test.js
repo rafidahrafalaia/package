@@ -1,5 +1,16 @@
-const sum = require('./index');
+const request = require('supertest');
+const app = require("./app");
 
-test('adds 1 + 2 to equal 3', () => {
-  expect(sum(1, 2)).toBe(3);
+describe('Space test suite', () => {
+    it('tests /package endpoints', async() => {
+        const response = await request(app).get("/package");
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual(expect.any(Array))
+        // Testing a single element in the array
+
+    });
+
+    // Insert other tests below this line
+
+    // Insert other tests above this line
 });
