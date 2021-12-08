@@ -207,14 +207,14 @@ test("GET package", async () => {
 });
 
 test("PUT package", async () => {
-
+  testPackage.transaction_id=test_id;
   await supertest(app).put("/package/"+test_id).send(testPackage)
   .expect(200);
     
 });
 
 test("PATCH package", async () => {
-
+  testPackage.transaction_id=test_id;
   await supertest(app).patch("/package/"+test_id).send(testPackage)
   .expect(200);
     
