@@ -1,7 +1,9 @@
-var app = require('./app');
+const request = require('supertest');
+const mongoose = require("mongoose");
+const { MongoMemoryServer } = require("mongodb-memory-server");
+const packageMongo = require('./mongo_models/package.model.');
 var chai = require('chai');
-var request = require('supertest');
-
+var app = require('./app');
 var expect = chai.expect;
 const testPackage = {
     "transaction_id": "d0090c40-539f-479a-8274-899b9970bddc",
@@ -155,52 +157,89 @@ const testPackage = {
       "type": "Agent"
     }
 }
-describe('Package Test', () => {
-  it('tests get /package', function(done) { 
-    request(app)
-    .get('/package')
-    .end(function(err, res) {
-      expect(res.statusCode).to.be.equal(200);
-      done();
+describe('Package', () => {
+  let mongoServer;
+  beforeAll(async () => {
+    mongoServer = new MongoMemoryServer();
+    const URI = await mongoServer.getUri();
+
+    mongoose.connect(URI, {
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useUnifiedTopology: true,
     });
   });
 
-  it('tests post /package', function(done) { 
-    request(app)
-    .post('/package')
-    .send(testPackage)
-    .end(function(err, res) {
-      expect(res.statusCode).to.be.equal(200);
-      done();
-    });
+  afterAll(async done => {
+    mongoose.disconnect(done);
+    await mongoServer.stop();
   });
 
-  it('tests put /package', function(done) { 
-    request(app)
-    .put('/package/d0090c40-539f-479a-8274-899b9970bddc')
-    .send(testPackage)
-    .end(function(err, res) {
-      expect(res.statusCode).to.be.equal(200);
-      done();
-    });
+  afterEach(async () => {
+    const collections = await mongoose.connection.db.collections();
+
+    for (let collection of collections) {
+      await collection.deleteMany();
+    }
   });
 
-  it('tests patch /package', function(done) { 
-    request(app)
-    .patch('/package/d0090c40-539f-479a-8274-899b9970bddc')
-    .send(testPackage)
-    .end(function(err, res) {
-      expect(res.statusCode).to.be.equal(200);
-      done();
-    });
+  it('should be able to create a Package', async () => {
+    const response = await request(app)
+      .post('/package')
+      .send(testPackage)
+
+    expect(response.status).toBe(200);
   });
 
-  it('tests patch /delete', function(done) { 
-    request(app)
-    .delete('/package/d0090c40-539f-479a-8274-899b9970bddc')
-    .end(function(err, res) {
-      expect(res.statusCode).to.be.equal(200);
-      done();
-    });
+  it('should not create a Package if it has already been defined', async () => {
+    await request(app)
+      .post('/package')
+      .send(testPackage)
+
+    const response = await request(app)
+      .post('/package')
+      .send(testPackage);
+
+    expect(response.statusCode).toBe(403);
   });
-});
+
+  it('should be able to get a Package', async () => {
+    const response = await request(app)
+      .get('/package/'+testPackage.transaction_id)
+      .send(testPackage)
+
+    expect(response.status).toBe(200);
+  });
+
+  it('should be able to list all Package', async () => {
+    const response = await request(app)
+      .get('/package');
+
+    expect(response.status).toBe(200);
+  });
+
+  it('should be able to update a Package', async () => {
+    const response = await request(app)
+      .put('/package/'+testPackage.transaction_id)
+      .send(testPackage)
+
+    expect(response.status).toBe(200);
+  });
+  
+  it('should be able to patch a Package', async () => {
+    const response = await request(app)
+      .patch('/package/'+testPackage.transaction_id)
+      .send(testPackage)
+
+    expect(response.status).toBe(200);
+  });
+
+  it('should be able to delete a Package', async () => {
+    const response = await request(app)
+      .delete('/package/'+testPackage.transaction_id)
+      .send(testPackage)
+
+    expect(response.status).toBe(200);
+  });
+
+})
