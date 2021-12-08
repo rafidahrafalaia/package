@@ -1,6 +1,6 @@
 FROM node:14-alpine
 
-ENV PORT=3200
+ENV PORT=3700
 
 RUN mkdir -p /usr/src/app/node_modules && chown -R node:node /usr/src/app
 
