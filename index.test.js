@@ -6,11 +6,11 @@ const config = require("./config");
 
 jest.setTimeout(30000);
 function startServer() {
-  const app = express()
-  app.use(express.json());
-  app.use('/',routes());
-  app.get('/', (req, res) => res.send('Its working!'));
-  return app
+  const server = express()
+  server.use(express.json());
+  server.use('/',routes());
+  server.get('/', (req, res) => res.send('Its working!'));
+  return server;
 }
 
 beforeEach((done) => {
@@ -32,7 +32,7 @@ afterEach((done) => {
 const app = startServer();
 
 const testPackage = {
-  "transaction_id": "d0090c40-539f-479a-8274-899b9970bddc",
+  "transaction_id": "d0090c40-639f-179a-8274-891b9970b1dc",
   "customer_name": "PT. AMARA PRIMATIGA",
   "customer_code": "1678593",
   "transaction_amount": "70700",
@@ -183,8 +183,7 @@ const testPackage = {
     "type": "Agent"
   }
 }
-const test_id="d0ad12a0-539f-479a-8274-899b9970badc";
-const app = createServer();
+const test_id="d0090c40-539f-479a-8274-899b9970bddc";
 
 test("GET all package", async () => {
 
@@ -216,14 +215,14 @@ test("PUT package", async () => {
 
 test("PATCH package", async () => {
 
-  await supertest(app).patch("/package/"+test_id).send(testPackage)
+  await supertest(app).patch("/package/"+testPackage.transaction_id).send(testPackage)
   .expect(200);
     
 });
 
-test("PATCH package", async () => {
+test("DELETE package", async () => {
 
-    await supertest(app).delete("/package/"+test_id)
+    await supertest(app).delete("/package/"+testPackage.transaction_id)
     .expect(200);
       
 });
