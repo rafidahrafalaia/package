@@ -5,17 +5,17 @@ module.exports = (app) => {
 
   app.use("/package", router);
 
-  router.post("/", packages.create);
+  router.post("/", packages.postPackage);
 
-  router.get("/", packages.findAll);
+  router.get("/", packages.getAllPackage);
 
-  router.get("/:id", packages.findOne);
+  router.get("/:id", packages.getOnePackage);
 
-  router.put("/:id", packages.update);
+  router.put("/:id", packages.putPackage);
 
-  router.patch("/:id", packages.patch);
+  router.patch("/:id", packages.patchPackage);
 
-  router.delete("/:id", packages.delete);
+  router.delete("/:id", packages.deletePackage);
 
   // router.delete("/", packages.deleteAll);
 

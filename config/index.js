@@ -15,7 +15,7 @@ module.exports = {
    */
   app: {
     name: process.env.APP_NAME,
-    port: parseInt(process.env.PORT, 10),
+    port: parseInt(process.env.PORT, 10) || 5000,
   },
 
   /**

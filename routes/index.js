@@ -1,12 +1,12 @@
 const { Router } = require("express");
 
 // ROUTES
-const package = require("./package.routes");
+const packageRoute = require("./package.routes");
 
 module.exports = () => {
   const app = Router();
 
-  package(app);
+  packageRoute(app);
 
   return app;
 };

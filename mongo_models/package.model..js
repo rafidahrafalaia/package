@@ -25,7 +25,7 @@ const packageSchema = new Schema(
     },
     transaction_additional_field: {
       type: String,
-      required: true,
+      required: false,
     },
     transaction_payment_type: {
       type: String,
