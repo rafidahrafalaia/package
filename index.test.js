@@ -32,7 +32,7 @@ afterEach((done) => {
 const app = startServer();
 
 const testPackage = {
-  "transaction_id": "d0090c40-639f-179a-8274-891b9970b1dc",
+  "transaction_id": "d0a55a45-539f-879a-8274-899b9970b5a1",
   "customer_name": "PT. AMARA PRIMATIGA",
   "customer_code": "1678593",
   "transaction_amount": "70700",
@@ -183,7 +183,9 @@ const testPackage = {
     "type": "Agent"
   }
 }
-const test_id="d0090c40-539f-479a-8274-899b9970bddc";
+
+const put_test_id="d0a55a45-539f-879a-8274-899b9970bad9";
+const patch_test_id="d0090c40-539f-479a-8274-899b9970bddc";
 
 test("GET all package", async () => {
 
@@ -201,23 +203,9 @@ test("POST package", async () => {
 
 test("GET package", async () => {
 
-    await supertest(app).get("/package/"+test_id)
+    await supertest(app).get("/package/"+testPackage.transaction_id)
       .expect(200);
       
-});
-
-test("PUT package", async () => {
-  testPackage.transaction_id=test_id;
-  await supertest(app).put("/package/"+test_id).send(testPackage)
-  .expect(200);
-    
-});
-
-test("PATCH package", async () => {
-  testPackage.transaction_id=test_id;
-  await supertest(app).patch("/package/"+test_id).send(testPackage)
-  .expect(200);
-    
 });
 
 test("DELETE package", async () => {
@@ -225,4 +213,18 @@ test("DELETE package", async () => {
     await supertest(app).delete("/package/"+testPackage.transaction_id)
     .expect(200);
       
+});
+
+test("PUT package", async () => {
+  // testPackage.transaction_id=put_test_id;
+  await supertest(app).put("/package/"+put_test_id).send(testPackage)
+  .expect(200);
+    
+});
+
+test("PATCH package", async () => {
+  // testPackage.transaction_id=patch_test_id;
+  await supertest(app).patch("/package/"+patch_test_id).send(testPackage)
+  .expect(200);
+    
 });
